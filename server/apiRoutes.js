@@ -1,18 +1,30 @@
+import request from 'superagent'
 const express = require('express')
-const request = require('superagent')
 
 const db = require('../db/db')
 
 const router = express.Router()
 
-router.get('/users', (req, res) => {
-  db.getUsers()
-  .then(users => {
-    res.json({users})
-  })
-  .catch(err => {
-    res.status(500).send('DATABASE ERROR: ' + err.message)
-  })
+// route to get all parties in the database
+router.get('/parties', (req, res) => {
+  db.getParties()
+    .then(parties => {
+      res.json({parties})
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
+router.get('/parties/:id', (req, res) => {
+  const id = req.params.id
+  db.getParty(id)
+    .then(party => {
+      res.json({party})
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
 })
 
 module.exports = router
