@@ -3,9 +3,18 @@ const config = require('../knexfile')[environment]
 const connection = require('knex')(config)
 
 module.exports = {
-  getUsers
+  getParties,
+  getParty
 }
 
-function getUsers (db = connection) {
-  return db('users').select()
+// to select all the parties in the database. Corresponds to /parties route
+function getParties (db = connection) {
+  return db('cocktail_party').select()
+}
+
+// to select the party the user has selected, based on id
+function getParty (id, db = connection) {
+  return db('cocktail_party')
+    .where('id', id)
+    .first()
 }
