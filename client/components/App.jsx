@@ -1,16 +1,9 @@
 import React from 'react'
 
-import ErrorMessage from './ErrorMessage'
-import LoadSubreddit from './LoadSubreddit'
-import SubredditList from './SubredditList'
-import WaitIndicator from './WaitIndicator'
-
 const App = () => (
   <div className='app'>
-    <ErrorMessage />
-    <LoadSubreddit />
-    <WaitIndicator />
-    <SubredditList />
+    <h1>ON THE POSEIDON</h1>
+    <h3>Amy Emma George James Lauren</h3>
   </div>
 )
 

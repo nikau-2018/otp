@@ -7,10 +7,11 @@
     "dev": "nodemon --watch server & webpack --watch",
     "test": "jest --watchAll",
     "start": "node server",
+    "knex": "knex",
     "postinstall": "webpack"
   },
-  "author": "EDA",
-  "license": "ISC",
+  "author": "TEAM POSEIDON",
+  "license": "MIT",
   "babel": {
     "presets": [
       "env",
@@ -37,6 +38,7 @@
     "redux-thunk": "^2.2.0",
     "superagent": "^3.8.2",
     "supertest": "^3.0.0",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "sqlite3": "^3.1.13"
   }
 }
