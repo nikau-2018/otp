@@ -23509,19 +23509,15 @@ var CreateEvent = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).call(this, props));
 
     _this.callbackSelected = function (action, id) {
-      var selected = [].concat(_toConsumableArray(_this.state.selected));
+      var selected = [];
       switch (action) {
         case 'add':
-          console.log('add', action, id);
-          _this.setState({ selected: selected.push(id) });
+          selected = [].concat(_toConsumableArray(_this.state.selected));
+          selected.push(id);
           break;
         case 'del':
-          console.log('del', action, id);
-          _this.setState({ selected: selected.filter(function (drink) {
-              return selected.idDrink !== id;
-            }) });
-          break;
       }
+      _this.setState({ selected: selected });
     };
 
     _this.sendForm = function () {
@@ -23540,11 +23536,11 @@ var CreateEvent = function (_React$Component) {
     };
 
     _this.state = {
-      hostName: 'George',
-      description: 'Description here',
-      guests: ['Emma, Lauren'],
+      hostName: '',
+      description: '',
+      guests: [],
       drinks: [],
-      selected: ["16419", "14107", "16405", "15597", "14229"]
+      selected: []
     };
     return _this;
   }
@@ -23576,7 +23572,6 @@ var CreateEvent = function (_React$Component) {
         indexSet.add(drinks[Math.floor(Math.random() * (drinks.length - 1)) + 1]);
       }
       this.setState({ drinks: [].concat(_toConsumableArray(indexSet)) });
-      this.sendForm();
     }
   }, {
     key: 'render',
@@ -23585,18 +23580,18 @@ var CreateEvent = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
-        this.state.err ? _react2.default.createElement(
-          'h3',
-          null,
-          this.state.err
-        ) : this.state.drinks.map(function (drink) {
-          return _react2.default.createElement(
-            'span',
-            { key: drink.idDrink },
-            _react2.default.createElement(_DrinkTile2.default, { drink: drink, callback: _this3.callbackSelected })
-          );
-        })
+        { className: 'container' },
+        _react2.default.createElement(
+          'span',
+          { className: 'd-flex flex-wrap' },
+          this.state.drinks.map(function (drink) {
+            return _react2.default.createElement(
+              'span',
+              { className: 'tile', key: drink.idDrink },
+              _react2.default.createElement(_DrinkTile2.default, { drink: drink, callback: _this3.callbackSelected })
+            );
+          })
+        )
       );
     }
   }]);
@@ -23655,18 +23650,14 @@ var CreateEvent = function (_React$Component) {
     value: function render() {
       var drink = this.props.drink;
       return _react2.default.createElement(
-        'div',
-        null,
+        'span',
+        { className: this.state.selected ? 'selected' : '', onClick: this.toggleSelected },
         _react2.default.createElement(
-          'div',
-          { className: 'drink-tile', onClick: this.toggleSelected },
-          _react2.default.createElement(
-            'h3',
-            null,
-            drink.strDrink
-          ),
-          _react2.default.createElement('img', { src: drink.strDrinkThumb })
-        )
+          'span',
+          null,
+          drink.strDrink
+        ),
+        _react2.default.createElement('img', { src: drink.strDrinkThumb })
       );
     }
   }]);

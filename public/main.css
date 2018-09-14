@@ -1,3 +1,17 @@
 body {
   background-color: mintcream;
 }
+
+.selected {
+  color: red;
+}
+
+.tile img {
+  height: auto;
+  width: 150px;
+  height: 150px;
+}
+
+.tile {
+  width: 200px;
+}
