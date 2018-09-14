@@ -12,8 +12,8 @@ const App = () => {
       <Router>
         <div>
           <Route exact path='/' component ={Home} />
-          <Route path='/event/:id' component={ViewEventContainer} />
-          <Route path='/event/add' component={CreateEvent} />
+          <Route exact path='/event/:id' component={ViewEventContainer} />
+          <Route exact path='/event/create' component={CreateEvent} />
         </div>
       </Router>
     </div>
