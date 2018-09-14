@@ -32,7 +32,18 @@ router.get('/parties/:id', (req, res) => {
 router.post('/parties/:id', (req, res) => {
   const partyData = req.body
   db.addParty(partyData)
-    .then()
+    .then(res => {
+      console.log('added party details to database')
+    })
+  db.addDrink(partyData)
+    .then(res => {
+      console.log('added drink names to database')
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
 })
+
+// route to get ingredients to database using external API
 
 module.exports = router

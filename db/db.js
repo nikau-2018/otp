@@ -5,7 +5,8 @@ const connection = require('knex')(config)
 module.exports = {
   getParties,
   getParty,
-  addParty
+  addParty,
+  addDrink
 }
 
 // to select all the parties in the database. Corresponds to /parties route
@@ -23,5 +24,18 @@ function getParty (id, db = connection) {
 // to insert req.body (partyData) to table
 function addParty (partyData, db = connection) {
   return db('cocktail_party')
-    .insert(partyData)
+    .insert({
+      'id': partyData.id,
+      'host_name': partyData.host_name,
+      'description': partyData.description,
+      'guests': partyData.guests
+    })
+}
+
+function addDrink (partyData, db = connection) {
+  return db('drinks')
+    .where('party_id', partyData.id)
+    .insert({
+      'name': partyData.name
+    })
 }
