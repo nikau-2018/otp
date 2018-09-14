@@ -30,7 +30,7 @@ router.get('/parties/:id', (req, res) => {
 })
 
 // route to add party to database
-router.post('/parties/:id', (req, res) => {
+router.post('/parties', (req, res) => {
   const partyData = req.body
   db.addParty(partyData)
     .then(res => {

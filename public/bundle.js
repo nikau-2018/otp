@@ -28394,15 +28394,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ViewEventContainer = function (_React$Component) {
   _inherits(ViewEventContainer, _React$Component);
 
+<<<<<<< HEAD
   function ViewEventContainer(props) {
     _classCallCheck(this, ViewEventContainer);
+=======
+    _this.callbackSelected = function (action, id) {
+      var selected = [];
+      switch (action) {
+        case 'add':
+          selected = [].concat(_toConsumableArray(_this.state.selected));
+          selected.push(id);
+          break;
+        case 'del':
+      }
+      _this.setState({ selected: selected });
+    };
+>>>>>>> 6b088f6221b3320196210719777360f081e883fc
 
     var _this = _possibleConstructorReturn(this, (ViewEventContainer.__proto__ || Object.getPrototypeOf(ViewEventContainer)).call(this, props));
 
     _this.state = {
+<<<<<<< HEAD
       party: {},
       guests: [],
       ingredients: [{ name: 'lime', claimed: true }, { name: 'rum', claimed: true }, { name: 'coke', claimed: true }, { name: 'salt', claimed: true }, { name: 'lime', claimed: true }, { name: 'bourbon', claimed: true }, { name: 'gin', claimed: true }, { name: 'vodka', claimed: true }, { name: 'vermouth', claimed: true }, { name: 'martini', claimed: true }, { name: 'ice', claimed: true }, { name: 'tonic water', claimed: true }]
+=======
+      hostName: '',
+      description: '',
+      guests: [],
+      drinks: [],
+      selected: []
+>>>>>>> 6b088f6221b3320196210719777360f081e883fc
     };
     return _this;
   }
@@ -28445,6 +28467,7 @@ var ViewEventContainer = function (_React$Component) {
         })
       );
     }
+<<<<<<< HEAD
   }]);
 
   return ViewEventContainer;
@@ -28493,6 +28516,16 @@ var ViewEvent = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       // get the claimed status from db and store in state
+=======
+  }, {
+    key: 'randomiseDrinks',
+    value: function randomiseDrinks(drinks) {
+      var indexSet = new Set();
+      while (indexSet.size < 20) {
+        indexSet.add(drinks[Math.floor(Math.random() * (drinks.length - 1)) + 1]);
+      }
+      this.setState({ drinks: [].concat(_toConsumableArray(indexSet)) });
+>>>>>>> 6b088f6221b3320196210719777360f081e883fc
     }
   }, {
     key: 'render',
@@ -28501,6 +28534,7 @@ var ViewEvent = function (_React$Component) {
         'div',
         { className: 'container' },
         _react2.default.createElement(
+<<<<<<< HEAD
           'p',
           { className: 'row justify-content-center', style: { textAlign: 'center' } },
           this.props.description
@@ -28553,6 +28587,17 @@ var ViewEvent = function (_React$Component) {
               );
             })
           )
+=======
+          'span',
+          { className: 'd-flex flex-wrap' },
+          this.state.drinks.map(function (drink) {
+            return _react2.default.createElement(
+              'span',
+              { className: 'tile', key: drink.idDrink },
+              _react2.default.createElement(_DrinkTile2.default, { drink: drink, callback: _this3.callbackSelected })
+            );
+          })
+>>>>>>> 6b088f6221b3320196210719777360f081e883fc
         )
       );
     }
@@ -28629,6 +28674,7 @@ var Home = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
+<<<<<<< HEAD
         'div',
         { className: 'container' },
         _react2.default.createElement(
@@ -28663,6 +28709,16 @@ var Home = function (_React$Component) {
           })
         ),
         _react2.default.createElement('div', { className: 'events' })
+=======
+        'span',
+        { className: this.state.selected ? 'selected' : '', onClick: this.toggleSelected },
+        _react2.default.createElement(
+          'span',
+          null,
+          drink.strDrink
+        ),
+        _react2.default.createElement('img', { src: drink.strDrinkThumb })
+>>>>>>> 6b088f6221b3320196210719777360f081e883fc
       );
     }
   }]);
