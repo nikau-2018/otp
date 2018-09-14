@@ -33,7 +33,7 @@ class ViewEvent extends React.Component {
                 // style will toggle depending on drink claimed/not
                 <div style={{display: 'inline'}}>
                   <input key={i} type="checkbox" id={`${ingredient.name}`} value={`${ingredient.name}`}/>
-                  <label key={i} htmlFor={`${ingredient.name}`}>{`${ingredient.name}`}</label><br/>
+                  <label key={i} for={`${ingredient.name}`}>{`${ingredient.name}`}</label><br/>
                 </div>
               )
             })}

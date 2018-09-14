@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 // const request = require('superagent')
 
-=======
-const request = require('superagent')
->>>>>>> 0bc47ac9285bc51455580dc42913be9012a7dc3b
 const express = require('express')
 
 const db = require('../db/db')
