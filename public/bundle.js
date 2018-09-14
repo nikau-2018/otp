@@ -23508,12 +23508,43 @@ var CreateEvent = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).call(this, props));
 
+    _this.callbackSelected = function (action, id) {
+      var selected = [].concat(_toConsumableArray(_this.state.selected));
+      switch (action) {
+        case 'add':
+          console.log('add', action, id);
+          _this.setState({ selected: selected.push(id) });
+          break;
+        case 'del':
+          console.log('del', action, id);
+          _this.setState({ selected: selected.filter(function (drink) {
+              return selected.idDrink !== id;
+            }) });
+          break;
+      }
+    };
+
+    _this.sendForm = function () {
+      var state = _this.state;
+      var formData = {
+        hostName: state.hostName,
+        description: state.description,
+        guests: state.guests.join(", "),
+        drinks: state.selected
+      };
+      console.log(JSON.stringify(formData));
+      _superagent2.default.post('/api/v1/parties').send(formData).then(function (res) {
+        console.log('body', res.body);
+        console.log('res', res);
+      });
+    };
+
     _this.state = {
-      hostName: '',
-      description: '',
-      guests: [],
+      hostName: 'George',
+      description: 'Description here',
+      guests: ['Emma, Lauren'],
       drinks: [],
-      selected: []
+      selected: ["16419", "14107", "16405", "15597", "14229"]
     };
     return _this;
   }
@@ -23524,8 +23555,8 @@ var CreateEvent = function (_React$Component) {
       var _this2 = this;
 
       this.getAllDrinks().then(function (drinks) {
-        _this2.setState({ drinks: drinks });
-        _this2.randomiseDrinks();
+        _this2.setState({ drinksAll: drinks });
+        _this2.randomiseDrinks(drinks);
       }).catch(function (err) {
         return _this2.setState({ err: err.message });
       });
@@ -23539,12 +23570,19 @@ var CreateEvent = function (_React$Component) {
     }
   }, {
     key: 'randomiseDrinks',
-    value: function randomiseDrinks() {
-      var arr = [].concat(_toConsumableArray(this.state.drinks));
+    value: function randomiseDrinks(drinks) {
+      var indexSet = new Set();
+      while (indexSet.size < 20) {
+        indexSet.add(drinks[Math.floor(Math.random() * (drinks.length - 1)) + 1]);
+      }
+      this.setState({ drinks: [].concat(_toConsumableArray(indexSet)) });
+      this.sendForm();
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -23556,7 +23594,7 @@ var CreateEvent = function (_React$Component) {
           return _react2.default.createElement(
             'span',
             { key: drink.idDrink },
-            _react2.default.createElement(_DrinkTile2.default, { drink: drink })
+            _react2.default.createElement(_DrinkTile2.default, { drink: drink, callback: _this3.callbackSelected })
           );
         })
       );
@@ -23596,10 +23634,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CreateEvent = function (_React$Component) {
   _inherits(CreateEvent, _React$Component);
 
-  function CreateEvent() {
+  function CreateEvent(props) {
     _classCallCheck(this, CreateEvent);
 
-    return _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CreateEvent.__proto__ || Object.getPrototypeOf(CreateEvent)).call(this, props));
+
+    _this.toggleSelected = function () {
+      _this.state.selected ? _this.props.callback('del', _this.props.drink.idDrink) : _this.props.callback('add', _this.props.drink.idDrink);
+      _this.setState({ selected: !_this.state.selected });
+    };
+
+    _this.state = {
+      selected: false
+    };
+    return _this;
   }
 
   _createClass(CreateEvent, [{
@@ -23611,7 +23659,7 @@ var CreateEvent = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          { className: 'drink-tile' },
+          { className: 'drink-tile', onClick: this.toggleSelected },
           _react2.default.createElement(
             'h3',
             null,

@@ -7,8 +7,7 @@
     "dev": "nodemon --watch server & webpack --watch",
     "test": "jest --watchAll",
     "start": "node server",
-    "knex": "knex",
-    "postinstall": "webpack"
+    "knex": "knex"
   },
   "author": "TEAM POSEIDON",
   "license": "MIT",
@@ -16,6 +15,9 @@
     "presets": [
       "env",
       "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
     ]
   },
   "dependencies": {
