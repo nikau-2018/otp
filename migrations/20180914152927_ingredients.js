@@ -4,7 +4,7 @@ exports.up = (knex, Promise) => {
     table.string('name')
     table.string('claimed')
     table.string('claimed_by')
-    table.integer('party_id').references('cocktail_party.id')
+    table.integer('party_id')
   })
 }
 

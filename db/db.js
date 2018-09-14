@@ -6,7 +6,7 @@ module.exports = {
   getParties,
   getParty,
   addParty,
-  addDrink
+  addIngredients
 }
 
 // to select all the parties in the database. Corresponds to /parties route
@@ -25,17 +25,15 @@ function getParty (id, db = connection) {
 function addParty (partyData, db = connection) {
   return db('cocktail_party')
     .insert({
-      'id': partyData.id,
-      'host_name': partyData.host_name,
+      'host_name': partyData.hostName,
       'description': partyData.description,
       'guests': partyData.guests
     })
 }
 
-function addDrink (partyData, db = connection) {
-  return db('drinks')
-    .where('party_id', partyData.id)
+function addIngredients (ingredients, db = connection) {
+  return db('ingredients')
     .insert({
-      'name': partyData.name
+      'name': ingredients
     })
 }
