@@ -25071,7 +25071,7 @@ var App = function App() {
         'div',
         null,
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/parties/:id', component: _ViewEventContainer2.default })
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/event/:id', component: _ViewEventContainer2.default })
       )
     )
   );
@@ -28372,6 +28372,10 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _superagent = __webpack_require__(44);
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
 var _ViewEvent = __webpack_require__(132);
 
 var _ViewEvent2 = _interopRequireDefault(_ViewEvent);
@@ -28384,34 +28388,61 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Components
+
+
 var ViewEventContainer = function (_React$Component) {
   _inherits(ViewEventContainer, _React$Component);
 
-  function ViewEventContainer() {
+  function ViewEventContainer(props) {
     _classCallCheck(this, ViewEventContainer);
 
-    return _possibleConstructorReturn(this, (ViewEventContainer.__proto__ || Object.getPrototypeOf(ViewEventContainer)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ViewEventContainer.__proto__ || Object.getPrototypeOf(ViewEventContainer)).call(this, props));
+
+    _this.state = {
+      party: {},
+      guests: [],
+      ingredients: [{ name: 'lime', claimed: true }, { name: 'rum', claimed: true }, { name: 'coke', claimed: true }, { name: 'salt', claimed: true }, { name: 'lime', claimed: true }, { name: 'bourbon', claimed: true }, { name: 'gin', claimed: true }, { name: 'vodka', claimed: true }, { name: 'vermouth', claimed: true }, { name: 'martini', claimed: true }, { name: 'ice', claimed: true }, { name: 'tonic water', claimed: true }]
+    };
+    return _this;
   }
 
   _createClass(ViewEventContainer, [{
+    key: 'getParty',
+    value: function getParty() {
+      var partyId = Number(this.props.match.params.id);
+      return _superagent2.default.get('/api/v1/parties/' + partyId).then(function (res) {
+        return res.body.party;
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.getParty().then(function (party) {
+        _this2.setState({ party: party });
+      }).then(function () {
+        return _this2.setState({ guests: _this2.state.party.guests.split(', ') });
+      });
+    }
+  }, {
     key: 'render',
-
-    // constructor (props) {
-    //   super(props)
-    //   this.state = {
-
-    //   }
-    // }
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container' },
         _react2.default.createElement(
           'h1',
-          null,
-          'Your Event'
+          { className: 'row justify-content-center', style: { textAlign: 'center' } },
+          this.state.party.host_name,
+          '\'s Event'
         ),
-        _react2.default.createElement(_ViewEvent2.default, null)
+        _react2.default.createElement(_ViewEvent2.default, { host: this.state.party.host_name,
+          description: this.state.party.description,
+          guests: this.state.guests,
+          ingredients: this.state.ingredients
+        })
       );
     }
   }]);
@@ -28432,50 +28463,103 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ViewEvent = function ViewEvent(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'container' },
-    _react2.default.createElement(
-      'h1',
-      { className: 'row' },
-      props.event
-    ),
-    _react2.default.createElement(
-      'p',
-      { className: 'row' },
-      props.description
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'row' },
-      _react2.default.createElement(
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ViewEvent = function (_React$Component) {
+  _inherits(ViewEvent, _React$Component);
+
+  function ViewEvent(props) {
+    _classCallCheck(this, ViewEvent);
+
+    var _this = _possibleConstructorReturn(this, (ViewEvent.__proto__ || Object.getPrototypeOf(ViewEvent)).call(this, props));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(ViewEvent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // get the claimed status from db and store in state
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container' },
         _react2.default.createElement(
-          'select',
+          'p',
+          { className: 'row justify-content-center', style: { textAlign: 'center' } },
+          this.props.description
+        ),
+        _react2.default.createElement(
+          'div',
           null,
           _react2.default.createElement(
-            'option',
-            { value: 'guestname' },
-            'Guest names'
+            'div',
+            { className: 'row justify-content-center', style: { textAlign: 'center' } },
+            _react2.default.createElement(
+              'p',
+              null,
+              'What is your name? '
+            ),
+            _react2.default.createElement(
+              'select',
+              null,
+              this.props.guests.map(function (guest, i) {
+                return _react2.default.createElement(
+                  'option',
+                  { key: i, value: '' + guest },
+                  guest
+                );
+              })
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-6' },
+            _react2.default.createElement(
+              'p',
+              null,
+              'What will you bring to the party??????'
+            ),
+            this.props.ingredients.map(function (ingredient, i) {
+              return (
+                // style will toggle depending on drink claimed/not
+                _react2.default.createElement(
+                  'div',
+                  { style: { display: 'inline' } },
+                  _react2.default.createElement('input', { key: i, type: 'checkbox', id: '' + ingredient.name, value: '' + ingredient.name }),
+                  _react2.default.createElement(
+                    'label',
+                    { key: i, htmlFor: '' + ingredient.name },
+                    '' + ingredient.name
+                  ),
+                  _react2.default.createElement('br', null)
+                )
+              );
+            })
           )
         )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'col-6' },
-        _react2.default.createElement('input', { type: 'checkbow', id: 'ingredient' })
-      )
-    )
-  );
-};
+      );
+    }
+  }]);
+
+  return ViewEvent;
+}(_react2.default.Component);
 
 exports.default = ViewEvent;
 
@@ -28546,7 +28630,7 @@ var Home = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container' },
         _react2.default.createElement(
           'h1',
           null,
@@ -28557,23 +28641,27 @@ var Home = function (_React$Component) {
           null,
           'Events:'
         ),
-        this.state.parties.map(function (party) {
-          return _react2.default.createElement(
-            _reactRouterDom.Link,
-            { key: party.id, to: '/api/v1/parties/' + party.id },
-            _react2.default.createElement(
-              'span',
-              null,
-              party.description
-            ),
-            _react2.default.createElement('br', null),
-            _react2.default.createElement(
-              'span',
-              null,
-              party.hostName
-            )
-          );
-        }),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          this.state.parties.map(function (party) {
+            return _react2.default.createElement(
+              _reactRouterDom.Link,
+              { key: party.id, to: '/event/' + party.id },
+              _react2.default.createElement(
+                'span',
+                null,
+                party.description
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'span',
+                null,
+                party.hostName
+              )
+            );
+          })
+        ),
         _react2.default.createElement('div', { className: 'events' })
       );
     }

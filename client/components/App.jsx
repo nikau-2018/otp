@@ -11,7 +11,7 @@ const App = () => {
       <Router>
         <div>
           <Route exact path='/' component ={Home} />
-          <Route path='/parties/:id' component={ViewEventContainer} />
+          <Route path='/event/:id' component={ViewEventContainer} />
         </div>
       </Router>
     </div>

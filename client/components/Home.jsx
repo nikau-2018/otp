@@ -27,15 +27,17 @@ class Home extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className='container'>
         <h1>On The Poseidon</h1>
         <h2>Events:</h2>
-        {this.state.parties.map((party) => {
-          return <Link key={party.id} to={`/api/v1/parties/${party.id}`}>
-            <span>{party.description}</span><br/>
-            <span>{party.hostName}</span>
-          </Link>
-        })}
+        <div className='row'>
+          {this.state.parties.map((party) => {
+            return <Link key={party.id} to={`/event/${party.id}`}>
+              <span>{party.description}</span><br/>
+              <span>{party.hostName}</span>
+            </Link>
+          })}
+        </div>
         <div className='events'>
         </div>
       </div>
