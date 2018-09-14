@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // const request = require('superagent')
 
+=======
+const request = require('superagent')
+>>>>>>> 0bc47ac9285bc51455580dc42913be9012a7dc3b
 const express = require('express')
 
 const db = require('../db/db')
@@ -17,6 +21,7 @@ router.get('/parties', (req, res) => {
     })
 })
 
+// route to get one party based on the id
 router.get('/parties/:id', (req, res) => {
   const id = req.params.id
   db.getParty(id)
@@ -27,5 +32,23 @@ router.get('/parties/:id', (req, res) => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
     })
 })
+
+// route to add party to database
+router.post('/parties/:id', (req, res) => {
+  const partyData = req.body
+  db.addParty(partyData)
+    .then(res => {
+      console.log('added party details to database')
+    })
+  db.addDrink(partyData)
+    .then(res => {
+      console.log('added drink names to database')
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
+// route to get ingredients to database using external API
 
 module.exports = router
