@@ -1,11 +1,21 @@
 import React from 'react'
-import CreateEvent from './CreateEvent'
+import { HashRouter as Router, Route } from 'react-router-dom'
 
-const App = () => (
-  <div className='app'>
-    <h1>ON THE POSEIDON</h1>
-    <CreateEvent />
-  </div>
-)
+// Components
+import ViewEventContainer from './ViewEventContainer'
+import Home from './Home'
+
+const App = () => {
+  return (
+    <div className='app'>
+      <Router>
+        <div>
+          <Route exact path='/' component ={Home} />
+          <Route path='/event/:id' component={ViewEventContainer} />
+        </div>
+      </Router>
+    </div>
+  )
+}
 
 export default App
