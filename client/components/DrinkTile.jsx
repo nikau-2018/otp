@@ -18,15 +18,10 @@ export default class CreateEvent extends React.Component {
   render () {
     const drink = this.props.drink
     return (
-      <div>
-        {
-          <div className='drink-tile' onClick={this.toggleSelected}>
-            <h3>{drink.strDrink}</h3>
+          <span className={this.state.selected ? 'selected' : ''} onClick={this.toggleSelected}>
+            <span>{drink.strDrink}</span>
             <img src={drink.strDrinkThumb} />
-            {/* {this.props.callback()} */}
-          </div>
-        }
-      </div>
+          </span>
     )
   }
 }

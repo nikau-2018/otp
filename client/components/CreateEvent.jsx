@@ -7,11 +7,11 @@ export default class CreateEvent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      hostName: 'George',
-      description: 'Description here',
-      guests: ['Emma, Lauren'],
+      hostName: '',
+      description: '',
+      guests: [],
       drinks: [],
-      selected: ["16419", "14107", "16405", "15597", "14229"]
+      selected: []
     }
   }
 
@@ -37,21 +37,18 @@ export default class CreateEvent extends React.Component {
       indexSet.add(drinks[Math.floor(Math.random() * (drinks.length - 1)) + 1])
     }
     this.setState({drinks: [...indexSet]})
-    this.sendForm()
   }
 
   callbackSelected = (action, id) => {
-    const selected = [...this.state.selected]
+    let selected = []
     switch (action) {
       case 'add':
-      console.log('add',action, id)
-        this.setState({selected: selected.push(id)})
+        selected = [...this.state.selected]
+        selected.push(id)
         break;
       case 'del':
-      console.log('del',action, id)
-        this.setState({selected: selected.filter(drink => selected.idDrink !== id)})
-        break;
     }
+    this.setState({selected})
   }
 
   sendForm = () => {
@@ -69,17 +66,16 @@ export default class CreateEvent extends React.Component {
         console.log('body', res.body)
         console.log('res', res)
       })
-
   }
 
   render () {
     return (
-      <div>
+      <div className='container'>
+      <span className='d-flex flex-wrap'>
         {
-          this.state.err
-            ? <h3>{this.state.err}</h3>
-            : this.state.drinks.map(drink => <span key={drink.idDrink}><DrinkTile drink={drink} callback={this.callbackSelected}/></span>)
+          this.state.drinks.map(drink => <span className='tile' key={drink.idDrink}><DrinkTile drink={drink} callback={this.callbackSelected}/></span>)
         }
+      </span>
       </div>
     )
   }
