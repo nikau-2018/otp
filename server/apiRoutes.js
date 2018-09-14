@@ -31,14 +31,14 @@ router.get('/parties/:id', (req, res) => {
 
 // route to add party to database
 router.post('/parties', (req, res) => {
+  console.log('server', req.body)
   const partyData = req.body
   db.addParty(partyData)
     .then(res => {
       console.log('added party details to database')
-    })
-  db.addDrink(partyData)
-    .then(res => {
-      console.log('added drink names to database')
+      partyData.drinks.map(drinkId => {
+        cocktailApi(drinkId)
+      })
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -46,5 +46,15 @@ router.post('/parties', (req, res) => {
 })
 
 // route to get ingredients to database using external API
+function cocktailApi (drinkId) {
+  console.log(drinkId)
+  request
+    .get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`)
+    .then((res) => {
+      const ingredients = res.body.drinks
+      db.addIngredients(ingredients.strIngredient1)
+      console.log('added ingredient to database')
+    })
+}
 
 module.exports = router
